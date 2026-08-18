@@ -11,12 +11,12 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <a href="#" class="logo">Urban<span>Sale</span></a>
+        <a href="#" class="logo" data-filter="all">Urban<span>Sale</span></a>
         <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Women</a></li>
-            <li><a href="#">Men</a></li>
-            <li><a href="#">Sale</a></li>
+            <li><a href="#" class="active" data-filter="all">Home</a></li>
+            <li><a href="#" data-filter="women">Women</a></li>
+            <li><a href="#" data-filter="men">Men</a></li>
+            <li><a href="#" data-filter="sale">Sale</a></li>
         </ul>
     </nav>
 
@@ -29,11 +29,11 @@
 
     <!-- Product Grid Section -->
     <main id="sale">
-        <h2 class="section-title">Featured Deals</h2>
+        <h2 class="section-title" id="section-heading">Featured Deals</h2>
         <div class="product-grid">
 
-            <!-- Item 1 -->
-            <div class="product-card">
+            <!-- Item 1 (Men, Sale) -->
+            <div class="product-card" data-category="men sale">
                 <span class="badge">30% OFF</span>
                 <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=500&q=80"
                     alt="Casual T-Shirt" class="product-image">
@@ -46,8 +46,8 @@
                 </div>
             </div>
 
-            <!-- Item 2 -->
-            <div class="product-card">
+            <!-- Item 2 (Men, Sale) -->
+            <div class="product-card" data-category="men sale">
                 <span class="badge">40% OFF</span>
                 <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=500&q=80"
                     alt="Denim Jacket" class="product-image">
@@ -60,8 +60,8 @@
                 </div>
             </div>
 
-            <!-- Item 3 -->
-            <div class="product-card">
+            <!-- Item 3 (Women, Sale) -->
+            <div class="product-card" data-category="women sale">
                 <span class="badge">50% OFF</span>
                 <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80"
                     alt="Summer Dress" class="product-image">
@@ -74,8 +74,8 @@
                 </div>
             </div>
 
-            <!-- Item 4 -->
-            <div class="product-card">
+            <!-- Item 4 (Women, Sale) -->
+            <div class="product-card" data-category="women sale">
                 <span class="badge">25% OFF</span>
                 <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=500&q=80"
                     alt="Leather Jacket" class="product-image">
@@ -95,6 +95,63 @@
     <footer>
         <p>&copy; 2026 UrbanSale. All rights reserved.</p>
     </footer>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const logo = document.querySelector('.logo');
+        const productCards = document.querySelectorAll('.product-card');
+        const sectionHeading = document.getElementById('section-heading');
+
+        function filterProducts(filter, targetElement) {
+            // Remove active class from all links
+            navLinks.forEach(el => el.classList.remove('active'));
+
+            // Add active class to clicked nav item
+            if (targetElement) {
+                targetElement.classList.add('active');
+            }
+
+            // Update heading text dynamically
+            switch (filter) {
+                case 'women':
+                    sectionHeading.textContent = "Women's Collection";
+                    break;
+                case 'men':
+                    sectionHeading.textContent = "Men's Collection";
+                case 'sale':
+                    sectionHeading.textContent = "On Sale Items";
+                    break;
+                default:
+                    sectionHeading.textContent = "Featured Deals";
+            }
+
+            // Filter products based on data-category matching
+            productCards.forEach(card => {
+                const categories = card.getAttribute('data-category').split(' ');
+                if (filter === 'all' || categories.includes(filter)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Attach click listeners to all menu options
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const filter = link.getAttribute('data-filter');
+                filterProducts(filter, link);
+            });
+        });
+
+        // Reset when clicking logo
+        logo.addEventListener('click', (e) => {
+            e.preventDefault();
+            const homeLink = document.querySelector('.nav-links a[data-filter="all"]');
+            filterProducts('all', homeLink);
+        });
+    </script>
 </body>
 
 </html>
