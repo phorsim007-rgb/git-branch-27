@@ -50,10 +50,13 @@ a {
 .nav-links a {
     font-weight: 600;
     transition: color 0.3s;
+    padding-bottom: 2px;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
     color: #e63946;
+    border-bottom: 2px solid #e63946;
 }
 
 /* Hero Banner */
@@ -119,11 +122,15 @@ a {
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     position: relative;
-    transition: transform 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
+}
+
+.product-card.hidden {
+    display: none;
 }
 
 .badge {
